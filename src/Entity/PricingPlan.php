@@ -24,7 +24,7 @@ class PricingPlan
     /**
      * @var Collection<int, PricingPlanBenefit>
      */
-    #[ORM\OneToMany(targetEntity: PricingPlanBenefit::class, mappedBy: 'pricingPlan')]
+    #[ORM\OneToMany(targetEntity: PricingPlanBenefit::class, mappedBy: 'pricingPlan', cascade: ["persist"], orphanRemoval: true)]
     private Collection $benefits;
 
     /**
