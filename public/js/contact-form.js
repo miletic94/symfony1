@@ -1,15 +1,15 @@
 window.addEventListener('load', () => {
     initOnFormSubmit();
-});
+})
 
 function initOnFormSubmit() {
     const form = document.querySelector('#contactUsModal form');
-    if (form) {
-        form.addEventListener('submit', (event) => {
-            event.preventDefault();
-            sendData(form);
-        });
-    }
+
+    form.addEventListener('submit', (event) => {
+        event.preventDefault();
+
+        sendData(form);
+    })
 }
 
 function sendData(form) {
@@ -20,19 +20,21 @@ function sendData(form) {
         const newHtml = xhr.response;
         const divElement = document.createElement('div');
         divElement.innerHTML = newHtml;
-
         const newModalBody = divElement.querySelector('#contactUsModal .modal-body');
         const oldModalBody = document.querySelector('#contactUsModal .modal-body');
 
-        if (newModalBody && oldModalBody) {
+        if (newModalBody) {
             oldModalBody.innerHTML = newModalBody.innerHTML;
-            initOnFormSubmit();
+        } else {
+            document.querySelector('#contactUsModal .modal-body').innerHTML = 'Error occurred. Please try again later';
         }
-    });
+
+        initOnFormSubmit();
+    })
 
     xhr.addEventListener('error', () => {
-        document.querySelector('#contactUsModal .modal-body').innerHTML = 'Error occurred. Please, try again.';
-    });
+        document.querySelector('#contactUsModal .modal-body').innerHTML = 'Error occurred. Please try again later';
+    })
 
     xhr.open('POST', form.getAttribute('action'));
     xhr.send(formData);
